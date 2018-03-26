@@ -1,10 +1,9 @@
 # Simple HTTP Deploy tool
-It will change package version in docker-compose and run commands:
+It will update package version in docker-compose and run commands:
 ```bash
-docker-compose -f custom.docker-compose.yml pull
 docker-compose -f custom.docker-compose.yml up -d
 ```
-Previous docker compose file will be saved as `{previousImageVersion}_{previousDockerComposeFilename}`
+Previous docker compose file will be saved as `{previousDockerComposePath}_{previousImageVersion}`
 
 ## Configuration
 Configuration by environment variables:

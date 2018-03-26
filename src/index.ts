@@ -53,7 +53,7 @@ app.post("/", jsonParser, async (request: Request, response: Response) => {
     }
     const newYaml = yaml.replace(previousTagRegExp, `image: "${body.tag}"`);
 
-    fs.renameSync(config.path, `${match[1]}_${config.path}`);
+    fs.renameSync(config.path, `${config.path}_${match[1]}`);
     fs.writeFileSync(config.path, newYaml);
 
     try {
