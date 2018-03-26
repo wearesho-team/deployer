@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "outDir": "./build",
+    "sourceRoot": "./src/",
+    "rootDir": "./src/",
+    "removeComments": false,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "inlineSourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "target": "esnext",
+    "module": "esnext"
+  },
+  "exclude": [
+    "./node_modules/**/*",
+    "./tests/*"
+  ]
+}

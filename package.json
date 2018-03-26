@@ -1,0 +1,32 @@
+{
+  "name": "http-deployer",
+  "version": "1.0.0",
+  "description": "Simple deploy HTTP handler",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./deployer.js",
+    "build": "tsc",
+    "prepublishOnly": "build",
+    "prestart": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wearesho-team/deployer.git"
+  },
+  "author": "Alexander <horat1us> le",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/wearesho-team/http-deployer/issues"
+  },
+  "homepage": "https://github.com/wearesho-team/http-deployer#readme",
+  "dependencies": {
+    "@types/node": "^9.6.0",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.11.1",
+    "typescript": "^2.7.2"
+  }
+}
