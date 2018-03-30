@@ -45,7 +45,7 @@ app.post("/", jsonParser, async (request: Request, response: Response) => {
         return response.status(500).json({"message": `File ${config.path} does not exist`}).send();
     }
     const yaml = fs.readFileSync(config.path).toString();
-    const previousTagRegExp = new RegExp(`image:\\s+".*${body.name}:(\\d+\\.\\d+\\.\\d+)\\"`);
+    const previousTagRegExp = new RegExp(`image:\\s+".*${body.name}:(\\d+\\.\\d+\\.\\d+)\\"`, "g");
     const match = yaml.match(previousTagRegExp);
 
     if (!match) {
