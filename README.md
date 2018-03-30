@@ -41,6 +41,16 @@ Content-Type: application/json
 | 500       	| 302       	| DockerDeploy Error                             	| Error while executing `docker-compose up -d`. See deploy logs for details                                                                                        	|
 | 500       	| 303       	| AfterDeploy Error                              	| Error in some AfterDeploy script. See deploy logs for details and improve script                                                                                 	|
 
+Example:
+```json
+{
+  "code": 0,
+  "message": "Successful"
+}
+```
+
+**Notice: message can be changed in minor version. You should not parse it and depend your CI process on it.**
+
 ## Author
 [Alexander <horat1us> Letnikow](mailto:reclamme@gmail.com)
 
