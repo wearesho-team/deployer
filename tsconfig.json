@@ -11,7 +11,8 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "target": "esnext",
-    "module": "esnext"
+    "module": "esnext",
+    "strictNullChecks": true
   },
   "exclude": [
     "./node_modules/**/*",

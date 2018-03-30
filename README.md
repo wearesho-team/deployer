@@ -27,21 +27,19 @@ Content-Type: application/json
 ```
 
 #### Response
-1. Successful  
-200
-2. Configuration not found  
-422
-3. Invalid configuration 
-
-500
-
 Content-Type: application/json
 
-```json
-{
-    "message": "Some error information"
-}
-```
+| Http Code 	| JSON Code 	| Message                                        	| What to do?                                                                                                                                                      	|
+|-----------	|-----------	|------------------------------------------------	|------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
+| 200       	| 0         	| Successful                                     	| Drink beer                                                                                                                                                       	|
+| 403       	| -1        	| Forbidden                                      	| Try to pass valid                                                                                                                                                	|
+| 422       	| 101       	| Missing name or tag in body                    	| Put JSON body with name and tag fields                                                                                                                           	|
+| 422       	| 102       	| {name} deploy does not exist                   	| Configure {name} deploy on server                                                                                                                                	|
+| 501       	| 201       	| Compose file does not exist                    	| Fix path to docker-compose file in global configuration                                                                                                          	|
+| 501       	| 202       	| Can not find image name in docker-compose file 	| Make sure that image specified in docker-compose file. Image name should be placed between `"` and have 3-digit version after `:` (example: `"image-name:1.0.0`) 	|
+| 500       	| 301       	| BeforeDeploy Error                             	| Error in some BeforeDeploy script. See deploy logs for details and improve script                                                                                	|
+| 500       	| 302       	| DockerDeploy Error                             	| Error while executing `docker-compose up -d`. See deploy logs for details                                                                                        	|
+| 500       	| 303       	| AfterDeploy Error                              	| Error in some AfterDeploy script. See deploy logs for details and improve script                                                                                 	|
 
 ## Author
 [Alexander <horat1us> Letnikow](mailto:reclamme@gmail.com)
