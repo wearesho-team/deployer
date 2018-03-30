@@ -4,7 +4,7 @@ export interface ConfigEntity {
 }
 
 export interface ConfigInterface {
-    version: number;
-    secret: string;
+    version: number; // Configuration version, now always = 1
+    secret: string; // Value, that should be sent in X-Authorization header. If undefined, authorization will be ignored
     projects: Array<ConfigEntity>;
 }
