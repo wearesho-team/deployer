@@ -29,7 +29,7 @@ const executeScripts = async (commands: Array<string> | undefined): Promise<void
     if (!Array.isArray(commands)) {
         throw new Error("Commands should be an array");
     }
-    for (const command in commands) {
+    for (const command of commands) {
         try {
             console.log(command);
             await exec(command);
