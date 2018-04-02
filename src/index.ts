@@ -79,7 +79,7 @@ app.post("/", jsonParser, async (request: Request, response: Response): Promise<
         return response.status(501).json({code: 202, message: `Can not find image name in docker-compose file`}).send();
     }
     const newYaml = yaml.replace(previousTagRegExp, `image: "${body.tag}"`);
-    const previousVersion = match[0];
+    const previousVersion = match[0].match(/:(\d+\.\d+\.\d+)"/)[1];
 
     fs.renameSync(config.path, `${config.path}_${previousVersion}`);
     fs.writeFileSync(config.path, newYaml);
