@@ -2,6 +2,8 @@ export interface ConfigEntity {
     name: string; // Project name. Will be used in HTTP request
     path: string; // Absolute path to docker-compose.yml file
 
+    envPath?: string; // Absolute path to environment file, optional
+
     beforeDeploy?: Array<string>; // Commands that will be executed before executing `docker-compose up`
     afterDeploy?: Array<string>; // Commands that will be executed after successful execution `docker-compose up`
 }
