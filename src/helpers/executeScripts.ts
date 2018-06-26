@@ -1,7 +1,7 @@
 const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 
-export const executeScripts = async (commands: Array<string> | undefined): Promise<void> => {
+export const executeScripts = async (commands?: Array<string>): Promise<void> => {
     if (!commands) {
         return;
     }
