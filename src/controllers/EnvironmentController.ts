@@ -11,6 +11,7 @@ export class EnvironmentController {
         this.globalConfig = globalConfig;
         app
             .get("/env/:name", this.fetchProject, this.validate, this.get)
+            .delete("/env/:name", this.fetchProject, this.validate, this.delete)
             .put("/env/:name", this.fetchProject, this.validate, this.put);
     }
 
@@ -31,8 +32,26 @@ export class EnvironmentController {
         });
     }
 
+    public delete: express.RequestHandler = async (request: express.Request & { project: ConfigEntity, envFile: string, }, response): Promise<void> => {
+        const map = await DotEnvEditor.parse(request.envFile);
+        const value = map.get(request.params.name);
+
+        const backUpFile = `${request.envFile}.${new Date().toISOString()}`;
+        fs.copyFileSync(request.envFile, backUpFile);
+        map.delete(request.params.name);
+        await DotEnvEditor.save(map, request.envFile);
+
+        console.log(`${request.envFile} ${request.params.name} deleted by ${request.ip}. Backup saved as ${backUpFile}`);
+
+        response.status(202).json({
+            key: request.params.name,
+            value: undefined,
+            previousValue: value,
+        });
+    }
+
     public put: express.RequestHandler = async (request: express.Request & { project: ConfigEntity, envFile: string, }, response, next): Promise<void> => {
-        if (!request.body || !request.body.value) {
+        if (!request.body || request.body.value === undefined) {
             response.status(400).json({
                 code: 1006,
                 message: "Missing required body param: value",
@@ -46,7 +65,7 @@ export class EnvironmentController {
         const map = await DotEnvEditor.parse(request.envFile);
         const previousValue = map.get(request.params.name);
         map.set(request.params.name, request.body.value);
-        DotEnvEditor.save(map, request.envFile);
+        await DotEnvEditor.save(map, request.envFile);
 
         console.log(`${request.envFile} modified by ${request.ip}. Backup saved as ${backUpFile}`);
         response.status(202).json({
