@@ -43,11 +43,8 @@ export class EnvironmentController {
 
         console.log(`${request.envFile} ${request.params.name} deleted by ${request.ip}. Backup saved as ${backUpFile}`);
 
-        response.status(202).json({
-            key: request.params.name,
-            value: undefined,
-            previousValue: value,
-        });
+        response.setHeader("x-previous", value as string);
+        response.status(204).send();
     }
 
     public put: express.RequestHandler = async (request: express.Request & { project: ConfigEntity, envFile: string, }, response, next): Promise<void> => {
@@ -68,7 +65,7 @@ export class EnvironmentController {
         await DotEnvEditor.save(map, request.envFile);
 
         console.log(`${request.envFile} modified by ${request.ip}. Backup saved as ${backUpFile}`);
-        response.status(202).json({
+        response.status(200).json({
             key: request.params.name,
             value: request.body.value,
             previousValue,
