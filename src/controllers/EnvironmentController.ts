@@ -10,9 +10,21 @@ export class EnvironmentController {
     constructor(globalConfig: ConfigInterface, app: express.Express) {
         this.globalConfig = globalConfig;
         app
-            .get("/env/:name", this.fetchProject, this.validate, this.get)
-            .delete("/env/:name", this.fetchProject, this.validate, this.delete)
-            .put("/env/:name", this.fetchProject, this.validate, this.put);
+            .get("/env", this.fetchProject, this.validateEnvFile, this.list)
+            .get("/env/:name", this.fetchProject, this.validateName, this.validateEnvFile, this.get)
+            .delete("/env/:name", this.fetchProject, this.validateName, this.validateEnvFile, this.delete)
+            .put("/env/:name", this.fetchProject, this.validateName, this.validateEnvFile, this.put);
+    }
+
+    public list: express.RequestHandler = async (request: express.Request & { project: ConfigEntity, envFile: string, }, response): Promise<void> => {
+        const map = await DotEnvEditor.parse(request.envFile);
+
+        const list: { [k: string]: string } = {};
+        map.forEach((value, key) => {
+            list[key] = value;
+        });
+
+        response.json(list);
     }
 
     public get: express.RequestHandler = async (request: express.Request & { project: ConfigEntity, envFile: string, }, response): Promise<void> => {
@@ -72,7 +84,7 @@ export class EnvironmentController {
         });
     }
 
-    public validate: express.RequestHandler = (request: express.Request & { project: ConfigEntity, envFile: string }, response, next) => {
+    public validateName: express.RequestHandler = (request: express.Request, response, next) => {
         if (!request.params.name) {
             return response.status(400).json({
                 code: 1001,
@@ -80,6 +92,10 @@ export class EnvironmentController {
             });
         }
 
+        next();
+    }
+
+    public validateEnvFile: express.RequestHandler = (request: express.Request & { project: ConfigEntity, envFile: string }, response, next) => {
         const envFilePath = request.project.envPath;
         if ("string" !== typeof envFilePath) {
             response.status(422).json({
