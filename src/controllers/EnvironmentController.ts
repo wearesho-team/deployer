@@ -55,7 +55,9 @@ export class EnvironmentController {
 
         console.log(`${request.envFile} ${request.params.name} deleted by ${request.ip}. Backup saved as ${backUpFile}`);
 
-        response.setHeader("x-previous", value as string);
+        if ('string' === typeof value) {
+            response.setHeader("x-previous", value);
+        }
         response.status(204).send();
     }
 
