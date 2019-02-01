@@ -12,8 +12,8 @@ const jsonParser = bodyParser.json();
 import { ConfigEntity, ConfigInterface } from "./ConfigInterface";
 import { UpdateInterface } from "./UpdateInterface";
 import { Request, Response } from "express";
-import { checkAccess } from "./middlewares/checkAccess";
-import { executeScripts } from "./helpers/executeScripts";
+import * as middlewares from "./middlewares";
+import * as helpers from "./helpers";
 import { EnvironmentController } from './controllers/EnvironmentController';
 
 const configFilePath = process.env.DEPLOYER_CONFIG_PATH || "./config.json";
@@ -33,7 +33,7 @@ const app = express()
         });
     })
     .use(jsonParser)
-    .use(checkAccess(globalConfig))
+    .use(middlewares.checkAccess(globalConfig))
     .post("/", jsonParser, async (request: Request, response: Response): Promise<Response> => {
         const body: UpdateInterface = request.body;
         if (!body.name || !body.tag) {
@@ -51,8 +51,17 @@ const app = express()
             console.error(`File ${config.path} does not exist`);
             return response.status(501).json({ code: 201, message: "Compose file does not exist" }).send();
         }
+        if (config.time) {
+            try {
+                if (!helpers.checkTime(helpers.getCurrentTime(), config.time)) {
+                    return response.status(503).json({ code: 403, message: "Update not available" }).send();
+                }
+            } catch (error) {
+                return response.status(501).json({ code: 203, message: error.message }).send();
+            }
+        }
         const yaml = fs.readFileSync(config.path).toString();
-        const previousTagRegExp = new RegExp(`image:\\s+".*${body.name}:(\\d+\\.\\d+\\.\\d+)\\"`, "g");
+        const previousTagRegExp = new RegExp(`image:\\s+".*${body.name}:(\\d+\\.\\d+\\.\\d+)\"`, "g");
         const match = yaml.match(previousTagRegExp);
 
         if (!match || !match.length) {
@@ -66,7 +75,7 @@ const app = express()
 
         try {
             config.beforeDeploy && console.log("Executing beforeDeploy");
-            await executeScripts(config.beforeDeploy);
+            await helpers.executeScripts(config.beforeDeploy);
         }
         catch (error) {
             console.error(error);
@@ -83,7 +92,7 @@ const app = express()
 
         try {
             config.afterDeploy && console.log("Executing afterDeploy");
-            await executeScripts(config.afterDeploy);
+            await helpers.executeScripts(config.afterDeploy);
         }
         catch (error) {
             console.error(error);
