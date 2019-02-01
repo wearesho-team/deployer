@@ -37,9 +37,11 @@ Content-Type: application/json
 | 422       	| 102       	| {name} deploy does not exist                   	| Configure {name} deploy on server                                                                                                                                	|
 | 501       	| 201       	| Compose file does not exist                    	| Fix path to docker-compose file in global configuration                                                                                                          	|
 | 501       	| 202       	| Can not find image name in docker-compose file 	| Make sure that image specified in docker-compose file. Image name should be placed between `"` and have 3-digit version after `:` (example: `"image-name:1.0.0`) 	|
+| 501       	| 203       	| Invalid {type} time: {invalidTimeFormat}       	| Make sure that time rules in configuration if specified in format `HH:MM:SS`                                                                                     	|
 | 500       	| 301       	| BeforeDeploy Error                             	| Error in some BeforeDeploy script. See deploy logs for details and improve script                                                                                	|
 | 500       	| 302       	| DockerDeploy Error                             	| Error while executing `docker-compose up -d`. See deploy logs for details                                                                                        	|
 | 500       	| 303       	| AfterDeploy Error                              	| Error in some AfterDeploy script. See deploy logs for details and improve script                                                                                 	|
+| 503       	| 403       	| Update not available                           	| Try run update considering time specified in time rules                                                                                        	                  |
 
 Example:
 ```json
