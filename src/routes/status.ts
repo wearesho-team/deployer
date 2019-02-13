@@ -22,7 +22,7 @@ function formatResponse(code: ResponseCode | number, message: ResponseMessage, c
     }
 }
 
-export const status = (globalConfig: data.ConfigInterface) => (request: Request, response: Response) => {
+export const status = (globalConfig: data.ConfigInterface) => async (request: Request, response: Response) => {
     const { projectName } = request.params;
 
     const config: data.ConfigEntity | undefined = globalConfig.projects.find((config) => config.name === projectName);
@@ -36,7 +36,7 @@ export const status = (globalConfig: data.ConfigInterface) => (request: Request,
     }
     const command = `docker-compose -f ${config.path} ps`;
 
-    const { stderr, stdout, code } = helpers.exec(command);
+    const { stderr, stdout, code } = await helpers.exec(command);
     if (code) {
         console.error(`Error while cheching ${projectName} status: ${stderr}`);
         return response.status(503).json(formatResponse(code, ResponseMessage.dockerError));
