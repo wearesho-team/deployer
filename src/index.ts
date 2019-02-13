@@ -30,8 +30,8 @@ const app = express()
     })
     .use(jsonParser)
     .use(middlewares.checkAccess(globalConfig))
-    .post("/", jsonParser, routes.upgrade)
-    .get("/status/:projectName", routes.status);
+    .post("/", jsonParser, routes.upgrade(globalConfig))
+    .get("/status/:projectName", routes.status(globalConfig));
 
 new EnvironmentController(globalConfig, app);
 
