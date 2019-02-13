@@ -1,5 +1,5 @@
-import * as data from "data";
-import * as helpers from "helpers";
+import * as data from "../data";
+import * as helpers from "../helpers";
 import { Request, Response } from "express";
 import fs from "fs";
 

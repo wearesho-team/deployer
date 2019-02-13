@@ -3,7 +3,6 @@
     "outDir": "./build",
     "sourceRoot": "./src/",
     "rootDir": "./src/",
-    "baseUrl": "./src/",
     "removeComments": false,
     "moduleResolution": "node",
     "experimentalDecorators": true,

@@ -1,6 +1,6 @@
-import * as helpers from "helpers";
-import { ConfigEntity, ConfigInterface } from "data/ConfigInterface";
-import { UpdateInterface } from "data/UpdateInterface";
+import * as helpers from "../helpers";
+import { ConfigEntity, ConfigInterface } from "../data/ConfigInterface";
+import { UpdateInterface } from "../data/UpdateInterface";
 import { Request, Response } from "express";
 
 const fs = require("fs")

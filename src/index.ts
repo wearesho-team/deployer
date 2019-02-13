@@ -7,9 +7,9 @@ const fs = require("fs");
 const packageJson = require("../package.json");
 const jsonParser = bodyParser.json();
 
-import * as data from "data";
-import * as middlewares from "middlewares";
-import * as routes from "routes";
+import * as data from "./data";
+import * as middlewares from "./middlewares";
+import * as routes from "./routes";
 import { EnvironmentController } from './controllers/EnvironmentController';
 
 const configFilePath = process.env.DEPLOYER_CONFIG_PATH || "./config.json";

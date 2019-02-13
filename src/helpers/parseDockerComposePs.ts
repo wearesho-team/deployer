@@ -1,4 +1,4 @@
-import { Container } from "data";
+import { Container } from "../data";
 
 /**
  * @param stdout Example
