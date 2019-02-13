@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as path from "path";
 import * as fs from "fs";
-import { ConfigInterface, ConfigEntity } from "../ConfigInterface";
+import { ConfigInterface, ConfigEntity } from "../data/ConfigInterface";
 import { DotEnvEditor } from "../helpers/DotEnvEditor";
 
 export class EnvironmentController {
