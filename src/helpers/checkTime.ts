@@ -1,4 +1,4 @@
-import { TimeLimitRule } from "../ConfigInterface";
+import { TimeLimitRule } from "../data/ConfigInterface";
 
 function validateTime(time: string): boolean {
     return !!time.match(/^((?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$)/);

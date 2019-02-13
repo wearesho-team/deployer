@@ -1,5 +1,5 @@
 import * as express from "express";
-import { ConfigInterface } from "../ConfigInterface";
+import { ConfigInterface } from "../data/ConfigInterface";
 
 export const checkAccess = (globalConfig: ConfigInterface): express.RequestHandler => (request, response, next) => {
     if (!globalConfig.secret) {
