@@ -18,5 +18,5 @@ export const monitoring = (app: data.Meta, config: data.ConfigInterface) => (req
     };
     const end = new Date().getTime();
     data.ms.total = begin - end;
-    response.status(200).json(response);
+    response.status(200).json(data);
 };
