@@ -25,10 +25,10 @@ const app = express()
             version: packageJson.version,
         });
     })
+    .get("/monitoring", routes.monitoring(packageJson, globalConfig))
     .use(bodyParser.json())
     .use(middlewares.checkAccess(globalConfig))
     .post("/", routes.upgrade(globalConfig))
-    .get("/monitoring", routes.monitoring(packageJson, globalConfig))
     .get("/status/:projectName", routes.status(globalConfig));
 
 new EnvironmentController(globalConfig, app);
