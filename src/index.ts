@@ -1,12 +1,9 @@
 import 'babel-polyfill';
-
 import express from "express";
-const bodyParser = require("body-parser");
-const fs = require("fs");
+import bodyParser from "body-parser";
+import fs from "fs";
 
-const packageJson = require("../package.json");
-const jsonParser = bodyParser.json();
-
+import packageJson from "../package";
 import * as data from "./data";
 import * as middlewares from "./middlewares";
 import * as routes from "./routes";
@@ -28,9 +25,10 @@ const app = express()
             version: packageJson.version,
         });
     })
-    .use(jsonParser)
+    .use(bodyParser.json())
     .use(middlewares.checkAccess(globalConfig))
-    .post("/", jsonParser, routes.upgrade(globalConfig))
+    .post("/", routes.upgrade(globalConfig))
+    .get("/monitoring", routes.monitoring(packageJson, globalConfig))
     .get("/status/:projectName", routes.status(globalConfig));
 
 new EnvironmentController(globalConfig, app);
