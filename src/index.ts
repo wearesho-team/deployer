@@ -28,7 +28,7 @@ const app = express()
         });
     })
     .get("/monitoring", routes.monitoring(packageJson, globalConfig))
-    .post("/", checkAccess, routes.upgrade(globalConfig))
+    .post("/", checkAccess, bodyParser.json(), routes.upgrade(globalConfig))
     .get("/status/:projectName", checkAccess, routes.status(globalConfig));
 
 new EnvironmentController(globalConfig, app);
