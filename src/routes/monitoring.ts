@@ -3,8 +3,9 @@ import { Request, Response } from "express";
 
 export const monitoring = (app: data.Meta, config: data.ConfigInterface) => (request: Request, response: Response) => {
     const begin = new Date().getTime();
+    const { name, version } = app;
     const details: data.Monitoring.DetailsInterface = {
-        app,
+        app: { name, version, },
         projects: config.projects.map((project) => project.name),
     };
     const data: data.Monitoring.ResponseInterface = {
