@@ -18,6 +18,8 @@ if (globalConfig.version !== 1) {
     throw new Error(`Unexpected configuration version: ${globalConfig.version}, expected 1`);
 }
 
+const checkAccess = middlewares.checkAccess(globalConfig);
+
 const app = express()
     .get("/", (request, response) => {
         response.json({
@@ -26,10 +28,8 @@ const app = express()
         });
     })
     .get("/monitoring", routes.monitoring(packageJson, globalConfig))
-    .use(bodyParser.json())
-    .use(middlewares.checkAccess(globalConfig))
-    .post("/", routes.upgrade(globalConfig))
-    .get("/status/:projectName", routes.status(globalConfig));
+    .post("/", checkAccess, routes.upgrade(globalConfig))
+    .get("/status/:projectName", checkAccess, routes.status(globalConfig));
 
 new EnvironmentController(globalConfig, app);
 
