@@ -1,6 +1,6 @@
 import * as express from "express";
-import * as path from "path";
 import * as fs from "fs";
+import bodyParser from "body-parser";
 import { ConfigInterface, ConfigEntity } from "../data/ConfigInterface";
 import { DotEnvEditor } from "../helpers/DotEnvEditor";
 
@@ -13,7 +13,7 @@ export class EnvironmentController {
             .get("/env", this.fetchProject, this.validateEnvFile, this.list)
             .get("/env/:name", this.fetchProject, this.validateName, this.validateEnvFile, this.get)
             .delete("/env/:name", this.fetchProject, this.validateName, this.validateEnvFile, this.delete)
-            .put("/env/:name", this.fetchProject, this.validateName, this.validateEnvFile, this.put);
+            .put("/env/:name", bodyParser.json(), this.fetchProject, this.validateName, this.validateEnvFile, this.put);
     }
 
     public list: express.RequestHandler = async (request: express.Request & { project: ConfigEntity, envFile: string, }, response): Promise<void> => {
