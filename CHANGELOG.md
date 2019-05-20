@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.9.0
+- Refactor `monitoring` route using [express-monitoring](https://www.npmjs.com/package/express-monitoring)
+package to monitor application configuration and docker engine status.
+
 ## 1.2.0
 - Add `beforeDeploy` and `afterDeploy` sections to project configuration. It can be null or string[] (array).
 - Add `port` section to global configuration (loaded from JSON). 
